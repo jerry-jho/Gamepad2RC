@@ -1,0 +1,8 @@
+debug
+release
+.vscode
+.qmake.stash
+*.exe
+pc/YYMon/Makefile*
+schematic/XBoxRecv.fzz
+build-*
