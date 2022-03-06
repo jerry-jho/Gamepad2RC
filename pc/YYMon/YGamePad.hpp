@@ -162,16 +162,18 @@ private:
   }
 
   void Action(QString name, double value) {
-    if (value > 0.0) {
-      name = name + "+";
-    } else if (value < 0.0) {
-      name = name + "-";
-      value = -1 * value;
-    } else {
-      return;
+    QString aname;
+    if (value >= 0.0) {
+      aname = name + "+";
+      emit  onRawAction(aname, value);
+      emit  onAction(getMap(aname), value);
     }
-    emit  onRawAction(name, value);
-    emit  onAction(getMap(name), value);
+    if (value <= 0.0) {
+      aname = name + "-";
+      value = -1 * value;
+      emit  onRawAction(aname, value);
+      emit  onAction(getMap(aname), value);
+    }
   }
 
   QGamepad *m_gamepad;

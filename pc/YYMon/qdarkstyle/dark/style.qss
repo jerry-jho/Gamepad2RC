@@ -29,6 +29,7 @@ Resetting everything helps to unify styles across different operating systems
   border-style: none;
   border-image: none;
   outline: 0;
+  font-family: "Segoe UI";
 }
 
 /* specific reset for elements inside QToolBar */

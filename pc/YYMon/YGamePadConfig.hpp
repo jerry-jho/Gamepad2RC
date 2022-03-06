@@ -48,12 +48,19 @@ public:
         lay->addWidget(btn, i, 3);
 
       }
+      auto btnGroup = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+      connect(btnGroup, SIGNAL(accepted()), this, SLOT(accept()));
+      connect(btnGroup, SIGNAL(rejected()), this, SLOT(reject()));
+
       connect(m_signalMapper, &QSignalMapper::mappedString,
               this, &YGamePadConfig::clicked);
       connect(m_gamepad, &YGamePad::onRawAction,
               this, &YGamePadConfig::gamepadValue);
       mainLay->addLayout(lay);
+      mainLay->addStretch();
+      mainLay->addWidget(btnGroup);
       this->setLayout(mainLay);
+      this->resize(850,300);
     }
 
 private:
@@ -87,7 +94,16 @@ public slots:
   }
 
   void gamepadValue(QString buttonName, double value) {
-    if (!m_configing) return;
+    if (!m_configing) {
+      qDebug()<<buttonName<<value;
+      for (auto aitem : * m_list) {
+        if (m_edtMap[aitem]->text() == buttonName) {
+          m_sliderMap[aitem]->setValue(value * 100);
+        }
+      }
+      return;
+    }
+    if (value < 0.0001) return;
     QString item;
     for (auto aitem : * m_list) {
       if (m_btnMap[aitem]->isEnabled()) {
