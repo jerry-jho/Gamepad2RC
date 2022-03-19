@@ -9,16 +9,23 @@ int main(int argc, char **argv)
     QApplication::setOrganizationName("MySoft");
     QApplication::setOrganizationDomain("mysoft.com");
     QApplication::setApplicationName("YY Cars Monitor");
-    QFile f(":qdarkstyle/dark/style.qss");
 
+    QTranslator translator;
+    translator.load(":yymon.qm");
+    app.installTranslator(&translator);
+
+    QFile f(":qdarkstyle/dark/style.qss");
     if (f.exists()) {
         f.open(QFile::ReadOnly | QFile::Text);
         QTextStream ts(&f);
         qApp->setStyleSheet(ts.readAll());
     }
-    //printf("here\n");
+    qInfo() << "Starting GamePad Manager ...\n";
     YGamePadManager manager;
-    if (manager.exec() == QDialog::Rejected) return -1;
+    if (manager.exec() == QDialog::Rejected) {
+      qInfo() << "No GamePad Selected, exit\n";
+      return -1;
+    }
     int deviceID = manager.getDeviceID();
     if (deviceID < 0) return -2;
     auto m_gamepad = new QGamepad(deviceID);

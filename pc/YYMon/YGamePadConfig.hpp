@@ -18,7 +18,7 @@ public:
       auto mainLay = new QVBoxLayout();
 
       QHBoxLayout * tlay = new QHBoxLayout();
-      tlay->addWidget(new QLabel("Current Joystick"));
+      tlay->addWidget(new QLabel(tr("Current Joystick")));
 
       auto edtGamePadName = new QLineEdit();
       edtGamePadName->setText(gamepad->name());
@@ -37,7 +37,7 @@ public:
         auto sld = new QProgressBar();
         sld->setRange(0, 100);
         m_sliderMap[item] = sld;
-        auto btn = new QPushButton("Config...");
+        auto btn = new QPushButton(tr("Config"));
         m_btnMap[item] = btn;
         connect(btn, SIGNAL(clicked(bool)), m_signalMapper, SLOT(map()));
         m_signalMapper->setMapping(btn, item);
@@ -51,7 +51,8 @@ public:
       auto btnGroup = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
       connect(btnGroup, SIGNAL(accepted()), this, SLOT(accept()));
       connect(btnGroup, SIGNAL(rejected()), this, SLOT(reject()));
-
+      btnGroup->button(QDialogButtonBox::Ok)->setText(tr("OK"));
+      btnGroup->button(QDialogButtonBox::Cancel)->setText(tr("Cancel"));
       connect(m_signalMapper, &QSignalMapper::mappedString,
               this, &YGamePadConfig::clicked);
       connect(m_gamepad, &YGamePad::onRawAction,
@@ -75,7 +76,7 @@ private:
 public slots:
   void clicked(const QString &item) {
     if (m_configing) {
-      m_btnMap[item]->setText("Config...");
+      m_btnMap[item]->setText(tr("Config"));
       for (auto aitem : * m_list) {
         m_btnMap[aitem]->setEnabled(true);
       }
@@ -87,7 +88,7 @@ public slots:
       if (aitem != item) {
         m_btnMap[aitem]->setEnabled(false);
       } else {
-        m_btnMap[aitem]->setText("Done");
+        m_btnMap[aitem]->setText(tr("Done"));
       }
     }
     m_configing = true;

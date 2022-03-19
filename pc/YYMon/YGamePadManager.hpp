@@ -14,16 +14,20 @@ public:
     QDialog(parent) {
       //printf("here\n");
       auto mainLay = new QVBoxLayout;
-      mainLay->addWidget(new QLabel("Select a Joystick from the following list\nIf the list is empty, make sure you have pluged a Joystick in your computer"));
+      QString L1 = tr("Select a Joystick from the following list");
+      QString L2 = tr("If the list is empty, make sure you have pluged a Joystick in your computer");
+      mainLay->addWidget(new QLabel(L1 + "\n" + L2));
       mainLay->addWidget(&m_label);
       mainLay->addWidget(&m_list);
       auto btnGroup = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+      btnGroup->button(QDialogButtonBox::Ok)->setText(tr("OK"));
+      btnGroup->button(QDialogButtonBox::Cancel)->setText(tr("Cancel"));
       connect(btnGroup, SIGNAL(accepted()), this, SLOT(accept()));
       connect(btnGroup, SIGNAL(rejected()), this, SLOT(reject()));
       connect(btnGroup, SIGNAL(helpRequested()), this, SLOT(onUpdateGamepad()));
       mainLay->addWidget(btnGroup);
       setLayout(mainLay);
-
+      m_label.setText(QString(tr("0 Joystick(s) connected")));
       m_manager = QGamepadManager::instance();
       connect(m_manager, SIGNAL(connectedGamepadsChanged()), this, SLOT(onUpdateGamepadLater()));
 
@@ -51,7 +55,7 @@ private slots:
   void onUpdateGamepad() {
     m_list.clear();
     auto gamepads = QGamepadManager::instance()->connectedGamepads();
-    m_label.setText(QString("%1 Joystick(s) connected").arg(gamepads.size()));
+    m_label.setText(QString(tr("%1 Joystick(s) connected")).arg(gamepads.size()));
     // if (gamepads.isEmpty()) {
     //      QMessageBox::critical(nullptr, "Error", "Did not find any connected JoySticks\n\nPress OK, plug in a JoyStick and Rerun");
     //      return;

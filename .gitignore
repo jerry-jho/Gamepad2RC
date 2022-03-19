@@ -6,3 +6,6 @@ release
 pc/YYMon/Makefile*
 schematic/XBoxRecv.fzz
 build-*
+pc/YYMon_Build/Makefile*
+*.ts
+*.user

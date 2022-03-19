@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="/">
+    <file>yymon.qm</file>
+  </qresource>
+</RCC>

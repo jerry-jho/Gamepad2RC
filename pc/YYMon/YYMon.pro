@@ -5,4 +5,5 @@ HEADERS += YGamePad.hpp YGamePadConfig.hpp YGamePadManager.hpp
 SOURCES += main.cpp
 CONFIG += c++11 console
 QT += gamepad widgets
-RESOURCES += qdarkstyle/dark/style.qrc
+RESOURCES += qdarkstyle/dark/style.qrc main.qrc
+TRANSLATIONS = yymon.ts
